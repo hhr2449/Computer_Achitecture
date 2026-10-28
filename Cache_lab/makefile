@@ -1,0 +1,4 @@
+all: cache_size
+
+cache_size: src/cache_size.cpp
+	g++ -std=c++17 -O2 -o build/cache_size src/cache_size.cpp
