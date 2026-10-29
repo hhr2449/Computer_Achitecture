@@ -1,13 +1,16 @@
 import csv
 from collections import defaultdict
+from itertools import dropwhile
+from pathlib import Path
 import matplotlib.pyplot as plt
 
 # 按步长分组：
 # data[步长] = [(数组大小, 平均访问时间), ...]
 data = defaultdict(list)
 
-with open("results/capacity.csv", newline="") as file:
-    reader = csv.DictReader(file)
+base_dir = Path(__file__).resolve().parent
+with (base_dir / "results/capacity.csv").open(encoding="utf-8-sig", newline="") as file:
+    reader = csv.DictReader(dropwhile(lambda line: not line.strip(), file))
 
     for row in reader:
         stride = int(row["stride_bytes"])
@@ -41,8 +44,9 @@ plt.xscale("log", base=2)
 # 将横轴刻度显示为实际的 KiB 数值
 ticks = [
     4, 8, 16, 32, 64, 128, 256,
-    512, 1024, 2048, 4096, 8192, 16384
+    512, 1024, 2048, 4096, 6144, 8192
 ]
+
 plt.xticks(ticks, [str(value) for value in ticks], rotation=45)
 
 plt.xlabel("Array size (KiB)")
@@ -61,7 +65,7 @@ plt.axvline(
 )
 
 plt.axvline(
-    x=3072,
+    x=2048,
     color="black",
     linestyle="--",
     linewidth=1.5,
@@ -70,4 +74,4 @@ plt.axvline(
 plt.tight_layout()
 
 # 保存图片，再显示窗口
-plt.savefig("capacity.png", dpi=200)
+plt.savefig(base_dir / "capacity.png", dpi=200)
