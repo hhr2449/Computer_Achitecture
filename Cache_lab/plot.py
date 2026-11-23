@@ -57,7 +57,7 @@ plt.legend()
 plt.grid(True, alpha=0.3)
 # 标出系统报告的 L1D、L2 容量
 plt.axvline(
-    x=48,
+    x=32,
     color="crimson",
     linestyle="--",
     linewidth=1.5,
@@ -65,7 +65,7 @@ plt.axvline(
 )
 
 plt.axvline(
-    x=2048,
+    x=512,
     color="black",
     linestyle="--",
     linewidth=1.5,
